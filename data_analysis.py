@@ -5,11 +5,9 @@ from sklearn import preprocessing
 
 df = pd.read_csv("diabetic_data.csv")
 
-
 def printStats():
     print df.shape
     print df.head(5)
-
 
 def displayDups(data):
     duplicate_rows_df = data[data.duplicated()]
@@ -90,11 +88,10 @@ df = df.drop(df[df.discharge_disposition_id == 21].index)
 # replace the classifier column, "readmitted" values <30 and >30 with just "yes"
 df['readmitted'] = df['readmitted'].replace(['<30', '>30'], 'YES')
 
-#print df.dtypes
 
 # change all catigorical values to binary values in new columns
-#df = pd.get_dummies(df, columns=['race', 'gender', 'age', 'diag_1'])
 df = pd.get_dummies(df)
+#print df.dtypes
 
 # # limit to categorical data using df.select_dtypes()
 # X = df.select_dtypes(include=[object])
