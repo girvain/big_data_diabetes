@@ -1,0 +1,27 @@
+
+* Starting Data
+  - there are 101766 rows and  50 columns
+  - column removal
+    - weight is 98569 empty so near 100% empty
+    - payer_code is 40256 empty so near 50% empty
+    - medical_specialty is 49949 empty so near 50% empty
+  - row removal
+    - race is 2273
+    - diag_1 is 21
+    - diag_2 is 358
+    - diag_3 is 1423
+    Which is a total of roughly 4%
+  - end result is 98053 rows, 47 columns
+  - remove number_outpatient, number_emergancy and number_inpatient as they have high 0's
+    which indicates that there isn't much value in them
+
+* DONE remove encounter_no
+  takes if from 44 rows to 43
+* DONE trim the repeat patients from patient_no
+  Takes it from 98569 to (68630, 44)
+* DONE remove discharge disposition == death or hospice
+* DONE possibly remove dig_2 and 3
+  talks it from 43 to 41 columns
+* TODO map the data from the other xl sheet
+* TODO change re-admitted values from >30, <30 to just yes
+* TODO add/remove medicines after algo is working to evaluate performance with/without
