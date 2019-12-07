@@ -13,8 +13,12 @@ def displayDups(data):
     duplicate_rows_df = data[data.duplicated()]
     print("number of duplicate rows: ", duplicate_rows_df.shape)
 
+# displays the missing values in each column
 def displayMissingValues(data):
-    print("missing values:", data.isnull().sum())
+    print("missing values:", df.isnull().sum(axis=0))
+
+def displayMissingValuesRows(data):
+    print("missing values:", df.isnull().sum(axis=1))
 
 # replaces all missing values containing a '?' to be nan
 def setupMissingData():
@@ -32,12 +36,21 @@ def findSingleDataCols(data):
 def isUnique(data):
     print data.apply(pd.Series.nunique)
 
-
 # function to count the 'No' in a column. This could be useful
 # for tuning/trimming the model
+# THIS IS BROKE
 def howManyNoInRow(data):
     for col in data.columns:
         print(col, len(df[df[col] == 'No']))
+
+# prints the numbers of re-admitted vs not re-admitted
+def howManyReAdmitted():
+    #df.set_index(df["readmitted"]).count(level="NO")
+    print df['readmitted'].value_counts()
+
+# prints how many NaN values in the whole data
+def howManyNaN():
+    print('total missing values', df.isnull().sum().sum())
 
 #function to calculate how many 0's are in each colum
 def howManyZeroInRow(data):
@@ -45,21 +58,26 @@ def howManyZeroInRow(data):
         print(col, len(df[df[col] == 0]))
 
 
+howManyReAdmitted()
+printStats()
+
 # change the missing data to nan
 setupMissingData()
+howManyNaN()
+#displayMissingValues(df)
 
 # display missing data and remove it, display it again to show change. Also drop encounter_no
 # as it is completely unique and not relovent.
-#displayMissingValues(df);
+displayMissingValues(df);
 df.drop(columns=['weight', 'payer_code', 'medical_specialty', 'encounter_id'], axis=1, inplace=True)
 
 # Check for high zero value columns as this could be a sign of noise
-howManyZeroInRow(df)
+#howManyZeroInRow(df)
 df.drop(columns=['number_outpatient', 'number_emergency', 'number_inpatient'], axis=1, inplace=True)
 
 # remove diagnosis 2 and 3 as they are not as critical as the first diagnosis
 df.drop(columns=['diag_2', 'diag_3'], axis=1, inplace=True)
-printStats()
+#printStats()
 
 # drop duplicate rows
 df = df.dropna()
@@ -89,26 +107,10 @@ df = df.drop(df[df.discharge_disposition_id == 21].index)
 df['readmitted'] = df['readmitted'].replace(['<30', '>30'], 'YES')
 
 
+displayMissingValues(df)
+
 # change all catigorical values to binary values in new columns
 df = pd.get_dummies(df)
 #print df.dtypes
-
-# # limit to categorical data using df.select_dtypes()
-# X = df.select_dtypes(include=[object])
-# #print X.columns
-# le = preprocessing.LabelEncoder()
-# X_2 = X.apply(le.fit_transform)
-# print X_2.head()
-
-# # 1. INSTANTIATE
-# enc = preprocessing.OneHotEncoder()
-
-# # 2. FIT
-# enc.fit(X_2)
-
-# # 3. Transform
-# onehotlabels = enc.transform(X_2).toarray()
-# #print onehotlabels.shape
-
 
 printStats()
