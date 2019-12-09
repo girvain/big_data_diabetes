@@ -1,3 +1,9 @@
+* Things to ask?
+** Testing section?
+** word count?
+** Validation data?
+
+** cross validation and hyperparameters?
 
 * Starting Data
   - there are 101766 rows and  50 columns
@@ -25,3 +31,10 @@
 * TODO map the data from the other xl sheet
 * TODO change re-admitted values from >30, <30 to just yes
 * TODO add/remove medicines after algo is working to evaluate performance with/without
+
+Report
+* description of the problem
+  - total values, columns and rows
+  - unique values
+  - empty values
+  - extra document for number coded columns

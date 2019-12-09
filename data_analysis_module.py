@@ -66,7 +66,7 @@ def cleanData(data):
     # as it is completely unique and not relovent.
     #displayMissingValues(df);
     data.drop(columns=['weight', 'payer_code', 'encounter_id'], axis=1, inplace=True) # +8.1%
-    #data.drop(columns=['medical_specialty'], axis=1, inplace=True) # keeping this boosts 0.2%
+    data.drop(columns=['medical_specialty'], axis=1, inplace=True) # keeping this boosts 0.2%
 
     # Check for high zero value columns as this could be a sign of noise
     #howManyZeroInRow(data)
@@ -75,20 +75,21 @@ def cleanData(data):
     # remove diagnosis 2 and 3 as they are not as critical as the first diagnosis
     data.drop(columns=['diag_2', 'diag_3'], axis=1, inplace=True) #removing these boosts aprx .2%
 
-    # drop duplicate rows
-    data = data.dropna() # +0.2%
-    #print df.shape
-
     #data = removeDeathAndHospice(data)
 
     # check for columns with all the one value, then drop them
     #findSingleDataCols(df)
     data.drop(columns=['examide', 'citoglipton', 'metformin-rosiglitazone'], axis=1, inplace=True)
 
+    # drop rows with empty values
+    data = data.dropna() # +0.2%
+    #print data.shape
+
+
     # Remove the duplicate patient_no entries as we are only interested in the first admission
-    #data = data.drop_duplicates(subset='patient_nbr', keep='first') # -0.4%
+    data = data.drop_duplicates(subset='patient_nbr', keep='first') # -0.4%
     # Now remove the column as it has served it's purpose
-    #data.drop(columns=['patient_nbr'], axis=1, inplace=True)# this boost .3% but must come out as using a patient number is CHEATING
+    data.drop(columns=['patient_nbr'], axis=1, inplace=True)# this boost .3% but must come out as using a patient number is CHEATING
 
     # replace the classifier column, "readmitted" values <30 and >30 with just "yes"
     data['readmitted'] = data['readmitted'].replace(['<30', '>30'], 'YES')

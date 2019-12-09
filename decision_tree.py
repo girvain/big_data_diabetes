@@ -28,7 +28,7 @@ y = df_clean.readmitted_YES
 #view target values
 print y[0:5]
 
-# split dataset into training set and test set: 70% training and 30% testing
+# split dataset into training set and test set: 80% training and 20% testing
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
 print X_train.shape
 
@@ -46,7 +46,7 @@ print("Accuracy:", metrics.accuracy_score(y_test, y_pred))
 
 
 # Create Decision tree classifier object
-clf = DecisionTreeClassifier(criterion="entropy", max_depth=7)
+clf = DecisionTreeClassifier(criterion="entropy", max_depth=8)
 # train decision tree classifier
 clf = clf.fit(X_train, y_train)
 
@@ -54,7 +54,7 @@ clf = clf.fit(X_train, y_train)
 y_pred = clf.predict(X_test)
 
 # model accuracy, how often is the classifier correct?
-print("accuracy:", metrics.accuracy_score(y_test, y_pred))
+print("accuracy post tuning:", metrics.accuracy_score(y_test, y_pred))
 
 # ------ Visualising the tree --------
 # from sklearn.tree import export_graphviz
