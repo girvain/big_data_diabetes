@@ -4,6 +4,7 @@
 ** Validation data?
 
 ** cross validation and hyperparameters?
+** include Visualisation?
 
 * Starting Data
   - there are 101766 rows and  50 columns
